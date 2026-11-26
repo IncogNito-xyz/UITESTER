@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="dark light" />
+    <title>UITESTER · Laboratorio de dispositivos</title>
+    <link rel="icon" href="./assets/mark.svg" />
+    <link rel="stylesheet" href="./assets/style.css" />
+    <script>
+      try {
+        document.documentElement.dataset.theme =
+          localStorage.getItem("forma-theme") || "dark";
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <header class="mast">
+      <div class="brand">
+        <img src="./assets/mark.svg" width="36" height="36" alt="" /><strong
+          >UITESTER</strong
+        ><span class="brand-line"></span
+        ><span class="brand-desc">Laboratorio de dispositivos</span>
+      </div>
+      <div class="mast-tools">
+        <span class="local"><i></i> Sesión local</span>
+        <label class="gpu-option" id="gpu-option" title="Usar GPU en Chromium al abrir una URL o cambiar de modelo" hidden>
+          <input type="checkbox" id="gpu" aria-label="Usar GPU en Chromium" aria-describedby="gpu-help" />
+          GPU
+        </label>
+        <button type="button" class="icon" id="settings" data-icon="sliders"
+          title="Configuración" aria-label="Configuración"></button>
+        <div class="themes" aria-label="Tema de la interfaz">
+          <button
+            data-theme-value="light"
+            title="Tema claro"
+            aria-label="Tema claro"
+            data-icon="sun"
+          ></button
+          ><button
+            data-theme-value="dark"
+            title="Tema oscuro"
+            aria-label="Tema oscuro"
+            data-icon="moon"
+          ></button>
+        </div>
+      </div>
+    </header>
+    <div class="layout">
+      <div class="sidebar-rail" hidden>
+        <button
+          id="show-sidebar"
+          class="icon"
+          data-icon="next"
+          aria-controls="sidebar"
+          aria-expanded="false"
+          aria-label="Mostrar panel lateral"
+          title="Mostrar panel lateral"
+        ></button>
+      </div>
+      <aside id="sidebar" class="sidebar">
+        <div class="side-heading">
+          <h2>Dispositivos</h2>
+          <button
+            id="hide-sidebar"
+            class="icon"
+            data-icon="back"
+            aria-controls="sidebar"
+            aria-expanded="true"
+            aria-label="Ocultar panel lateral"
+            title="Ocultar panel lateral"
+          ></button>
+          <span id="count" class="count" title="Modelos disponibles"></span
+          ><button
+            id="close-library"
+            class="icon mobile-only"
+            data-icon="cross"
+            aria-label="Cerrar biblioteca"
+          ></button>
+        </div>
+        <label class="search"
+          ><span data-icon="search"></span
+          ><input
+            type="search"
+            id="search"
+            placeholder="Buscar modelo o marca"
+            aria-label="Buscar modelo o marca"
+        /></label>
+        <div id="filters" class="filters" aria-label="Tipo de dispositivo">
+          <button data-type="all">Todos</button
+          ><button data-type="phone">Móviles</button
+          ><button data-type="tablet">Tablets</button>
+        </div>
+        <div id="catalog" class="catalog" aria-label="Modelos"></div>
+        <button id="help" class="help">
+          <span data-icon="info"></span> Guía de emulación
+        </button>
+      </aside>
+      <main>
+        <form id="url-form">
+          <div class="address-row">
+            <button
+              id="library"
+              type="button"
+              class="mobile-only icon"
+              data-icon="list"
+              title="Dispositivos"
+              aria-label="Dispositivos"
+              aria-controls="sidebar"
+              aria-expanded="false"
+            ></button>
+            <div class="address-box">
+              <span data-icon="link"></span
+              ><input
+                id="address"
+                aria-label="URL de la aplicación"
+                autocomplete="off"
+                spellcheck="false"
+                type="text"
+                inputmode="url"
+                placeholder="Introduce un dominio, localhost o una IP local"
+                required
+              />
+            </div>
+            <button class="primary" id="load" type="submit">
+              Abrir URL <span data-icon="arrow"></span>
+            </button>
+            <select
+              id="comparison"
+              aria-label="Comparar dispositivos"
+              title="Comparar dispositivos"
+            >
+              <option value="1">Comparar</option>
+              <option value="2">2 vistas</option>
+              <option value="3">3 vistas</option>
+            </select>
+          </div>
+        </form>
+        <div id="notice" role="status" hidden></div>
+        <div id="views">
+          <button type="button" class="resize-grip edge-grip" data-edge="left"
+            aria-label="Ajustar borde izquierdo" title="Arrastra para ajustar el borde izquierdo"></button>
+          <section
+            class="workspace"
+            id="workspace"
+            aria-label="Vista del dispositivo"
+          >
+            <div class="stage" id="stage">
+              <div id="scaled">
+                <div id="device" class="device">
+                  <div class="glass">
+                    <iframe
+                      src="./demo.html"
+                      id="preview"
+                      title="Página de calibración"
+                    ></iframe
+                    ><img
+                      hidden
+                      id="live"
+                      draggable="false"
+                      tabindex="0"
+                      alt="Vista interactiva de la aplicación"
+                    />
+                    <div id="touch-cursor" aria-hidden="true" hidden></div>
+                    <div
+                      id="scroll-y"
+                      class="scroll-track"
+                      aria-hidden="true"
+                      hidden
+                    >
+                      <i></i>
+                    </div>
+                    <div
+                      id="scroll-x"
+                      class="scroll-track"
+                      aria-hidden="true"
+                      hidden
+                    >
+                      <i></i>
+                    </div>
+                    <textarea
+                      hidden
+                      id="keyboard"
+                      aria-label="Teclado de la vista emulada"
+                      autocapitalize="off"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button type="button" class="resize-grip height-grip" id="height-grip"
+              aria-label="Ajustar altura de la vista" title="Arrastra para ajustar la altura. Doble clic para restablecer."></button>
+            <footer class="stage-footer">
+              <div class="device-summary">
+                <div
+                  class="model-icon"
+                  data-icon="phone"
+                  id="selected-icon"
+                ></div>
+                <div class="selected">
+                  <h2 id="model-name">iPhone 15 Pro</h2>
+                  <span id="model-desc">Apple · Móvil</span>
+                </div>
+              </div>
+              <div class="stage-meta">
+                <span
+                  ><i class="status-dot"></i
+                  ><b id="state">Página de prueba</b></span
+                >
+                <span id="metrics">393 × 852 px</span>
+                <span id="density">DPR 3</span>
+              </div>
+              <div class="nav-buttons">
+                <button
+                  class="icon"
+                  data-icon="back"
+                  id="back"
+                  title="Atrás"
+                  aria-label="Atrás"
+                  disabled
+                ></button
+                ><button
+                  class="icon"
+                  data-icon="next"
+                  id="forward"
+                  title="Adelante"
+                  aria-label="Adelante"
+                  disabled
+                ></button
+                ><button
+                  class="icon"
+                  data-icon="refresh"
+                  id="reload"
+                  title="Recargar"
+                  aria-label="Recargar"
+                ></button>
+              </div>
+              <div class="stage-controls">
+                <button
+                  class="icon"
+                  id="rotate"
+                  data-icon="rotate"
+                  title="Girar dispositivo"
+                  aria-label="Girar dispositivo"
+                ></button>
+                <label class="zoom">
+                  <select id="zoom" aria-label="Escala de la vista">
+                    <option value="fit">Ajustar</option>
+                    <option value=".5">50 %</option>
+                    <option value=".75">75 %</option>
+                    <option value="1">100 %</option>
+                  </select>
+                  <span data-icon="chevron"></span>
+                </label>
+                <button
+                  class="icon"
+                  id="expand"
+                  data-icon="expand"
+                  title="Pantalla completa"
+                  aria-label="Pantalla completa"
+                ></button>
+              </div>
+            </footer>
+          </section>
+          <button type="button" class="resize-grip column-grip" id="column-grip-1"
+            aria-label="Ajustar ancho entre vistas 1 y 2" title="Arrastra para ajustar el ancho. Doble clic para restablecer."></button>
+          <button type="button" class="resize-grip column-grip" id="column-grip-2"
+            aria-label="Ajustar ancho entre vistas 2 y 3" title="Arrastra para ajustar el ancho. Doble clic para restablecer."></button>
+          <button type="button" class="resize-grip edge-grip" data-edge="right"
+            aria-label="Ajustar borde derecho" title="Arrastra para ajustar el borde derecho"></button>
+        </div>
+      </main>
+    </div>
+    <dialog id="settings-dialog" aria-labelledby="settings-title">
+      <div class="dialog-head">
+        <h2 id="settings-title">Configuración de pantalla</h2>
+        <button type="button" class="icon" id="close-settings" data-icon="cross" aria-label="Cerrar configuración"></button>
+      </div>
+      <p id="settings-warning" hidden></p>
+      <p id="updated-engine" hidden><a target="_blank" rel="noopener">Abrir UITESTER actualizado</a></p>
+      <form id="settings-form">
+        <fieldset id="display-fields">
+          <label for="display-view">Vista</label>
+          <select id="display-view"></select>
+          <div class="display-resolution">
+            <label>Ancho (px)<input id="display-width" type="number" min="240" max="3840" required /></label>
+            <label>Alto (px)<input id="display-height" type="number" min="240" max="3840" required /></label>
+            <label>Densidad (DPR)<input id="display-dpr" type="number" min="1" max="4" step="0.001" required /></label>
+          </div>
+          <label class="sharp-option"><input type="checkbox" id="display-sharp" /> Captura nítida</label>
+          <p>El ancho y el alto cambian el área que ve la página. Cambiar la densidad recarga la vista. La captura nítida puede consumir más recursos.</p>
+          <p id="settings-error" role="alert" hidden></p>
+          <div class="settings-actions">
+            <button type="button" class="rect" id="reset-display">Restaurar perfil</button>
+            <button type="submit" class="primary">Aplicar</button>
+          </div>
+        </fieldset>
+      </form>
+    </dialog>
+    <dialog id="guide">
+      <div class="dialog-head">
+        <h2>Guía de emulación</h2>
+        <button
+          data-icon="cross"
+          id="close-guide"
+          class="icon"
+          aria-label="Cerrar guía"
+        ></button>
+      </div>
+      <p>
+        Escribe la dirección que usas en esta PC, por ejemplo
+        <code>miapp.test</code>, <code>localhost:8000</code> o
+        <code>192.168.1.25:8080</code>. Puedes incluir la ruta, el puerto y los
+        parámetros.
+      </p>
+      <p>
+        El motor local usa WebKit para iPhone y iPad, y Chromium para Android.
+        Cada perfil ajusta el área visible, la densidad y la entrada táctil. El
+        tamaño en Android puede variar según los ajustes del teléfono.
+      </p>
+      <p>
+        El círculo marca dónde tocarás. Arrastra o usa la rueda para desplazarte
+        y escribe con el teclado. El selector de escala cambia el tamaño de la
+        vista en tu monitor.
+      </p>
+      <p>
+        Activa <strong>Comparar</strong> para abrir dos o tres vistas. Cada
+        vista tiene sus propios controles. Arrastra los separadores para
+        ajustar el ancho o la altura. Haz doble clic para restablecerlos.
+        Los clics, desplazamientos y la
+        escritura se replican en las otras vistas. Si guardas o envías un
+        formulario, la acción puede ejecutarse en cada vista.
+      </p>
+      <p id="gpu-help" hidden>
+        La opción <strong>GPU</strong> de la barra superior se aplica a Chromium
+        al pulsar <strong>Abrir URL</strong> o cambiar de modelo. El pie de la
+        vista indica si la aceleración está activa.
+      </p>
+      <p>
+        En WebKit para Windows, los toques funcionan aunque la página pueda
+        detectar cero puntos táctiles. Para comprobar Safari en iOS, las barras
+        del navegador o el teclado del sistema, prueba también en el dispositivo
+        físico.
+      </p>
+      <button class="rect" id="reset-demo">Volver a la página de prueba</button>
+    </dialog>
+    <script type="module" src="./assets/app.mjs"></script>
+  </body>
+</html>

@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>UITESTER · Prueba de pantalla</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #f8f7fc;
+        color: #221f31;
+        font:
+          16px Inter,
+          "Segoe UI",
+          sans-serif;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 21px 23px 17px;
+      }
+      header strong {
+        font-size: 24px;
+        letter-spacing: -1.7px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      header img {
+        width: 26px;
+        height: 26px;
+        border-radius: 7px;
+      }
+      header span {
+        font-size: 12px;
+        background: #edebf4;
+        border: 1px solid #dedbe9;
+        border-radius: 20px;
+        padding: 6px 10px;
+        color: #524d64;
+      }
+      .wrap {
+        max-width: 800px;
+        margin: auto;
+        padding: 8px 23px 30px;
+      }
+      .poster {
+        --tone: #78b9e8;
+        background-color: var(--tone);
+        background-image:
+          linear-gradient(#245f9519 1px, transparent 1px),
+          linear-gradient(90deg, #245f9519 1px, transparent 1px);
+        background-size: 27px 27px;
+        border: 1px solid #76a2c4;
+        border-radius: 14px;
+        position: relative;
+        height: 230px;
+        isolation: isolate;
+        overflow: hidden;
+        color: #153b5c;
+      }
+      .poster:before,
+      .poster:after {
+        content: "+";
+        position: absolute;
+        left: 12px;
+        top: 5px;
+        font: 22px monospace;
+        opacity: 0.7;
+      }
+      .poster:after {
+        left: auto;
+        top: auto;
+        right: 12px;
+        bottom: 22px;
+      }
+      .orb {
+        position: absolute;
+        width: 210px;
+        height: 210px;
+        right: -54px;
+        top: -26px;
+        border-radius: 50%;
+        background: repeating-radial-gradient(
+          circle,
+          #1f527a 0 2px,
+          transparent 2px 9px
+        );
+      }
+      .cut {
+        position: absolute;
+        left: 16px;
+        top: 44px;
+        height: 72px;
+        width: 100px;
+        background-image: radial-gradient(#245f95 1.6px, transparent 2px);
+        background-size: 7px 7px;
+        mask-image: linear-gradient(to right, #000, transparent);
+      }
+      .type {
+        position: absolute;
+        left: 21px;
+        bottom: 15px;
+        font:
+          600 106px/0.98 Georgia,
+          serif;
+        letter-spacing: -11px;
+      }
+      .bars {
+        position: absolute;
+        bottom: 0;
+        inset-inline: 0;
+        height: 12px;
+        background: linear-gradient(
+          to right,
+          #20496b 0 16.666%,
+          #4385b4 16.666% 33.33%,
+          #8bc4e6 33.33% 50%,
+          #cfe8b8 50% 66.66%,
+          #f4d59a 66.66% 83.33%,
+          #e1aca5 83.33%
+        );
+      }
+      h1 {
+        font-size: 36px;
+        line-height: 1.05;
+        letter-spacing: -1.9px;
+        margin: 24px 0 9px;
+      }
+      p {
+        color: #696477;
+        font-size: 16px;
+        line-height: 1.55;
+        margin: 0 0 18px;
+      }
+      .readings {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border: 1px solid #dbd8e6;
+        border-radius: 11px;
+        background: white;
+      }
+      .metric {
+        padding: 14px;
+      }
+      .metric + .metric {
+        border-left: 1px solid #dbd8e6;
+      }
+      .metric small {
+        color: #625c72;
+        display: block;
+        margin-bottom: 5px;
+      }
+      .metric b {
+        font:
+          600 23px "Segoe UI",
+          sans-serif;
+      }
+      .metric em {
+        font: 12px sans-serif;
+        color: #6c647a;
+      }
+      h2 {
+        font-size: 17px;
+        margin: 20px 0 10px;
+      }
+      .colors {
+        display: flex;
+        gap: 9px;
+      }
+      .colors button {
+        border: 1px solid #0002;
+        width: 37px;
+        height: 37px;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      .colors button[aria-pressed="true"] {
+        outline: 2px solid #245f95;
+        outline-offset: 2px;
+      }
+      .caption {
+        margin-top: 17px;
+        font-size: 13px;
+      }
+      @media (min-width: 650px) {
+        .wrap {
+          margin-top: 24px;
+        }
+        .poster {
+          height: 280px;
+        }
+        .type {
+          font-size: 150px;
+        }
+        .orb {
+          width: 320px;
+          height: 320px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <strong><img src="./assets/mark.svg" alt="" />UITESTER</strong
+      ><span>Página de prueba</span>
+    </header>
+    <div class="wrap">
+      <div class="poster" aria-label="Patrón de calibración">
+        <div class="cut"></div>
+        <div class="orb"></div>
+        <div class="type">Aa</div>
+        <div class="bars"></div>
+      </div>
+      <h1>Prueba de pantalla</h1>
+      <p>Gira el dispositivo para comprobar cómo se adapta esta página.</p>
+      <div class="readings">
+        <div class="metric">
+          <small>Ancho visible</small><b id="w"></b> <em>px</em>
+        </div>
+        <div class="metric">
+          <small>Alto visible</small><b id="h"></b> <em>px</em>
+        </div>
+      </div>
+      <h2>Prueba de color</h2>
+      <div class="colors"></div>
+      <p class="caption">Toca un color para cambiar el patrón.</p>
+    </div>
+    <script>
+      function measure() {
+        document.querySelector("#w").textContent = window.innerWidth;
+        document.querySelector("#h").textContent = window.innerHeight;
+      }
+      measure();
+      new ResizeObserver(measure).observe(document.documentElement);
+      addEventListener("pageshow", measure);
+      addEventListener("resize", measure);
+      for (const [i, [label, color]] of [
+        ["Azul", "#78b9e8"],
+        ["Menta", "#a9d3b6"],
+        ["Arena", "#f2d694"],
+        ["Coral", "#f0b3a5"],
+      ].entries()) {
+        const b = document.createElement("button");
+        b.title = label;
+        b.setAttribute("aria-label", label);
+        b.style.background = color;
+        b.setAttribute("aria-pressed", String(i === 0));
+        b.onclick = () => {
+          document.querySelector(".poster").style.setProperty("--tone", color);
+          document
+            .querySelectorAll(".colors button")
+            .forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+        };
+        document.querySelector(".colors").append(b);
+      }
+    </script>
+  </body>
+</html>
