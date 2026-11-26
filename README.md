@@ -2,7 +2,7 @@
 
 ## Captura de pantalla
 
-![Vista de UITESTER](Screenshot/Screenshot0.jpg)
+![Vista de UITESTER](Screenshot/captura.jpg)
 
 Creado por Julio Pasquier el 21 de noviembre de 2026. Distribuido bajo la [licencia MIT](LICENSE).
 
