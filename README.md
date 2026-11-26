@@ -1,5 +1,9 @@
 # UITESTER · Laboratorio de dispositivos
 
+## Captura de pantalla
+
+![Vista de UITESTER](Screenshot/Screenshot0.jpg)
+
 Creado por Julio Pasquier el 21 de noviembre de 2026. Distribuido bajo la [licencia MIT](LICENSE).
 
 UITESTER permite probar aplicaciones web en perfiles de móviles, tablets y escritorio, con hasta tres vistas sincronizadas. Usa JavaScript, HTML y CSS en la interfaz, Node.js para el motor local y Playwright con Chromium y WebKit para la emulación.
